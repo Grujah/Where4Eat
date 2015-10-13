@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Where2EatClient</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="login_title">Welcome! Please login to continue</string>
+    <string name="sign_in">Sign Up</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_activity_submit_item">SubmitItemActivity</string>
+    <string name="description">Mmm.. Yummy!</string>
+    <string name="submit_item">Post it!</string>
+    <string name="submit_title">Welcome name and some text</string>
+    <string name="take_a_picture">Take a picture!</string>
+    <string name="food_name">Food Name</string>
+    <string name="venue_name">Venue Name</string>
+    <string name="title_activity_gsp">GSPActivity</string>
+    <string name="title_activity_list_food">ListFood</string>
+    <string name="see_foods">List All</string>
+    <string name="post_new_food">Post New</string>
+    <string name="title_activity_map">Map</string>
+    <string name="see_maps">Check Maps</string>
+    <string name="title_activity_food_map">Map</string>
+    <string name="pick_place">Find..</string>
+    <string name="title_activity_search_acitivity">SearchAc</string>
+    <string name="show_map">Show Map</string>
+    <string name="food">Food</string>
+    <string name="go_to_search">Search</string>
+    <string name="facebook_app_id">816703065093997</string>
+    <string name="title_activity_show_food">ShowFoodActivity</string>
+
+    <string name="title_activity_full_image">FullImageActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+</resources>

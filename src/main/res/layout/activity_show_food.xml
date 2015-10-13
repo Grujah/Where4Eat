@@ -1,0 +1,71 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SonucScrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:isScrollContainer="true"
+    android:scrollbars="vertical"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.nn.where4eatclient.ShowFoodActivity">
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/preview_image_2"
+        android:onClick="showFullImage"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/food_name"
+        android:id="@+id/foodview_name"
+        android:layout_below="@+id/preview_image_2"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/venue_name"
+        android:id="@+id/foodview_venue"
+        android:layout_below="@+id/foodview_name"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:id="@+id/foodview_description"
+        android:text="@string/description"
+        android:layout_below="@+id/foodview_venue"
+        />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/foodview_rating"
+        android:numStars="5"
+        android:rating="5.0"
+        android:stepSize="0.5"
+        android:layout_below="@+id/foodview_description"
+        android:layout_centerHorizontal="true" />
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/small_map"
+            tools:context="com.example.nn.where4eatclient.ShowFoodActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_below="@+id/foodview_rating"
+            android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+    </ScrollView>
