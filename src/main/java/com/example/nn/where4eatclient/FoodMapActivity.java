@@ -1,5 +1,6 @@
 package com.example.nn.where4eatclient;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
@@ -19,9 +20,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONArray;
 
 import java.io.InputStream;
@@ -57,20 +58,31 @@ public class FoodMapActivity extends FragmentActivity {
 
     private class AsyncFoodLocations extends AsyncGetFood {
 
+        public AsyncFoodLocations(Context context) {
+            super(context);
+        }
+
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
 
             try {
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for (int i = 0; i < jsonArray.length(); i++) {
 
                     MarkerOptions m = new MarkerOptions()
-                        .position(new LatLng(jsonArray.getJSONObject(i).getDouble("latitude"), jsonArray.getJSONObject(i).getDouble("longitude")))
-                        .title(jsonArray.getJSONObject(i).getString("name"));
+                            .position(new LatLng(jsonArray.getJSONObject(i).getDouble("latitude"), jsonArray.getJSONObject(i).getDouble("longitude")))
+                            .title(jsonArray.getJSONObject(i).getString("name"));
                     Marker x = mMap.addMarker(m);
-                    DownloadBitmapTask dl = new DownloadBitmapTask(x);
-                    dl.execute("http://192.168.1.3:8081/where2eat/images/" + jsonArray.getJSONObject(i).getString("image") + "_t.jpg");
+                    builder.include(x.getPosition());
+
+
+                    //          DownloadBitmapTask dl = new DownloadBitmapTask(x);
+                    //          dl.execute("http://192.168.1.3:8081/where2eat/images/" + jsonArray.getJSONObject(i).getString("image") + "_t.jpg");
                 }
+
+                LatLngBounds bounds = builder.build();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
             } catch (Exception e) {
                 Log.e("Mapa:", e.getLocalizedMessage());
             }
@@ -123,10 +135,16 @@ public class FoodMapActivity extends FragmentActivity {
         mMap.moveCamera(cu);
 
         mMap.setMyLocationEnabled(true);
-        AsyncFoodLocations fl = new AsyncFoodLocations();
-        fl.catchEverything();
+        AsyncFoodLocations fl = new AsyncFoodLocations(this);
 
+        if (getIntent().hasExtra("JSON")) {
+            fl.execute(getIntent().getStringExtra("JSON"));
+
+        } else {
+            fl.catchEverything();
+        }
     }
+
 
     class DownloadBitmapTask extends AsyncTask<String, Void, Bitmap> {
         private final Marker marker;
@@ -149,11 +167,10 @@ public class FoodMapActivity extends FragmentActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
-            if (result != null)
-            {
+            if (result != null) {
                 marker.setIcon(BitmapDescriptorFactory.fromBitmap(result));
             }
         }
     }
-
 }
+

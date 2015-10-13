@@ -1,5 +1,6 @@
 package com.example.nn.where4eatclient.Utils;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,8 +23,12 @@ import java.util.LinkedList;
  */
 public class AsyncGetFood extends AsyncTask<String, Void, JSONArray> {
 
-
+    private Context context;
     private LinkedList<FoodItem> flist = new LinkedList<FoodItem>();
+
+    public AsyncGetFood(Context context){
+        this.context = context;
+    }
 
     public void catchEverything(){
         JSONObject result = new JSONObject();
@@ -34,10 +39,15 @@ public class AsyncGetFood extends AsyncTask<String, Void, JSONArray> {
             result.put("name", "%%");
             result.put("minrating", 0);
             result.put("maxrating", 5);
-            result.put("minlat", -1000.00);
-            result.put("maxlat", 1000.00);
-            result.put("minlong", -1000.00);
-            result.put("maxlong", 1000.00);
+        //    result.put("minlat", -1000.00);
+        //    result.put("maxlat", 1000.00);
+        //    result.put("minlong", -1000.00);
+        //    result.put("maxlong", 1000.00);
+            result.put("distance",10000000);
+
+            SimpleLocationListener loc = new SimpleLocationListener(context);
+            result.put("latitude", loc.getLocation().getLatitude());
+            result.put("longitude",loc.getLocation().getLongitude());
 
             this.execute(result.toString());
 
@@ -62,6 +72,8 @@ public class AsyncGetFood extends AsyncTask<String, Void, JSONArray> {
 
 
             JSONObject send = new JSONObject(params[0]);
+
+
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost( Constants.SERVER_URL + Constants.GET_FOOD_URL);

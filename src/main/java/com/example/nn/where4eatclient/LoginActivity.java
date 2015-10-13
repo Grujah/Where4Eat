@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nn.where4eatclient.Utils.Constants;
 import com.example.nn.where4eatclient.Utils.SessionManager;
 
 import org.apache.http.HttpResponse;
@@ -95,7 +96,6 @@ public class LoginActivity extends Activity {
 
 
         ProgressDialog pDialog = new ProgressDialog(LoginActivity.this);
-        private static final String LOGIN_URL = "http://192.168.1.3:8081/where2eat/login.php";
         List<NameValuePair> requestData;
 
         @Override
@@ -169,7 +169,7 @@ public class LoginActivity extends Activity {
                 //bild Http Client + stuff
 
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(LOGIN_URL);
+                HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.LOGIN_URL);
 
                 httpPost.setEntity(jEntity);
 

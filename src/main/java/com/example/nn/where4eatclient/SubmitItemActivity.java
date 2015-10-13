@@ -206,9 +206,7 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
     public class uploadToServer extends AsyncTask<Void, Void, Integer> {
 
         ProgressDialog pDialog = new ProgressDialog(SubmitItemActivity.this);
-        private final String LOGIN_URL = "http://192.168.1.3:8081/where2eat/submit.php";
         JSONObject jasonAnswer;
-        private final String IMAGE_URL = "http://192.168.1.3:8081/where2eat/image.php";
         private ProgressDialog pd = new ProgressDialog(SubmitItemActivity.this);
 
         protected void onPreExecute() {
@@ -229,7 +227,7 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
                 requestData.add(new BasicNameValuePair("ImageName", imagename));
                 try {
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(IMAGE_URL);
+                    HttpPost httppost = new HttpPost(Constants.SERVER_URL + Constants.IMAGE_URL);
                     httppost.setEntity(new UrlEncodedFormEntity(requestData));
                     HttpResponse response = httpclient.execute(httppost);
                     String st = EntityUtils.toString(response.getEntity());
@@ -263,7 +261,7 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
             try{
             UrlEncodedFormEntity jEntity = new UrlEncodedFormEntity(requestData);
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(LOGIN_URL);
+            HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.SUBMIT_URL);
             httpPost.setEntity(jEntity);
 
 

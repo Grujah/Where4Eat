@@ -1,6 +1,7 @@
 package com.example.nn.where4eatclient;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,7 +25,7 @@ public class ListFoodActivity extends Activity {
 
         setContentView(R.layout.activity_list_food);
         lview = (ListView) findViewById(R.id.foodlist);
-        AsyncFoodList al = new AsyncFoodList();
+        AsyncFoodList al = new AsyncFoodList(this);
         if (getIntent().hasExtra("JSON")){
             al.execute(getIntent().getStringExtra("JSON"));
 
@@ -35,6 +36,10 @@ public class ListFoodActivity extends Activity {
 
 
         private class AsyncFoodList extends AsyncGetFood {
+
+            public AsyncFoodList(Context context) {
+                super(context);
+            }
 
             @Override
             public void onPostExecute (JSONArray s){

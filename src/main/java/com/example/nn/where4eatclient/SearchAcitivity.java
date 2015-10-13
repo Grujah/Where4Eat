@@ -1,5 +1,6 @@
 package com.example.nn.where4eatclient;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class SearchAcitivity extends ActionBarActivity {
+public class SearchAcitivity extends Activity {
 
     private static final int EARTH_RADIUS = 6378137;
     private TextView usernameView, foodView, venueView, minRatingView, maxRatingView;
@@ -60,19 +61,25 @@ public class SearchAcitivity extends ActionBarActivity {
         Intent i = new Intent (this, ListFoodActivity.class);
         i.putExtra("JSON",packIntoString().toString());
         startActivity(i);
-
     }
+
+    public void showMap (View view){
+        Intent i = new Intent (this, FoodMapActivity.class);
+        i.putExtra("JSON",packIntoString().toString());
+        startActivity(i);
+    }
+
     private JSONObject packIntoString(){
-        int R = EARTH_RADIUS; // earch radius
-        SimpleLocationListener sll = new SimpleLocationListener(this);
-        double myLat = sll.getLocation().getLatitude();
-        double myLong =  sll.getLocation().getLongitude();
-        double dLat = Double.valueOf(distanceView.getText().toString())/R;
-        double dLong = Double.valueOf(distanceView.getText().toString())/(R*Math.cos(Math.PI*myLat*180));
-        double minLat = myLat - dLat * 180/Math.PI;
-        double maxLat = myLat + dLat *180/Math.PI;
-        double minLong = myLong - dLong * 180/Math.PI;
-        double maxLong = myLong + dLong * 180/Math.PI;
+     //   int R = EARTH_RADIUS; // earch radius
+     //   SimpleLocationListener sll = new SimpleLocationListener(this);
+     //   double myLat = sll.getLocation().getLatitude();
+     //   double myLong =  sll.getLocation().getLongitude();
+     //   double dLat = Math.abs(Double.valueOf(distanceView.getText().toString())/R);
+     //   double dLong = Math.abs(Double.valueOf(distanceView.getText().toString())/(R*Math.cos(Math.PI*myLat*180)));
+     //   double minLat = myLat - dLat * 180/Math.PI;
+     //   double maxLat = myLat + dLat *180/Math.PI;
+     //   double minLong = myLong - dLong * 180/Math.PI;
+     //   double maxLong = myLong + dLong * 180/Math.PI;
 
         JSONObject result = new JSONObject();
         try {
@@ -81,10 +88,15 @@ public class SearchAcitivity extends ActionBarActivity {
             result.put("name", "%"+foodView.getText().toString()+"%");
             result.put("minrating", minRatingView.getText().toString());
             result.put("maxrating", maxRatingView.getText().toString());;
-            result.put("minlat", String.valueOf(minLat));
-            result.put("maxlat", String.valueOf(maxLat));
-            result.put("minlong", String.valueOf(minLong));
-            result.put("maxlong", String.valueOf(maxLong));
+        //    result.put("minlat", String.valueOf(minLat));
+        //    result.put("maxlat", String.valueOf(maxLat));
+        //    result.put("minlong", String.valueOf(minLong));
+        //    result.put("maxlong", String.valueOf(maxLong));
+            SimpleLocationListener loc = new SimpleLocationListener(this);
+            result.put("latitude", loc.getLocation().getLatitude());
+            result.put("longitude", loc.getLocation().getLongitude());
+
+        result.put("distance",distanceView.getText());
 
         } catch (JSONException e){
             Log.d("Search", e.getLocalizedMessage());

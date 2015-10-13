@@ -93,7 +93,7 @@ public class FoodListAdapterJSON extends BaseAdapter{
 
        //     image.setImageResource(R.drawable.nofood);
 
-            d.execute("http://192.168.1.3:8081/where2eat/images/"+jarray.getJSONObject(position).getString("image")+"_t.jpg");
+            d.execute(Constants.SERVER_URL + Constants.SERVER_IMAGE_FOLDER +jarray.getJSONObject(position).getString("image")+"_t.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
