@@ -2,7 +2,6 @@ package com.example.nn.where4eatclient;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.nn.where4eatclient.Utils.SimpleLocationListener;
+import com.example.nn.where4eatclient.utils.SimpleLocationListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;

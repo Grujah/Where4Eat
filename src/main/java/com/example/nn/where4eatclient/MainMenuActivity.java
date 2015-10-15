@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.nn.where4eatclient.Utils.SessionManager;
+import com.example.nn.where4eatclient.utils.SessionManager;
 
 
 public class MainMenuActivity extends Activity {

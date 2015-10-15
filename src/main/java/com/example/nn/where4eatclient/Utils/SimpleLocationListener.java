@@ -1,4 +1,4 @@
-package com.example.nn.where4eatclient.Utils;
+package com.example.nn.where4eatclient.utils;
 
 import android.content.Context;
 import android.location.Criteria;
@@ -22,9 +22,10 @@ public class SimpleLocationListener implements LocationListener{
         myLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        provider = myLocationManager.getBestProvider(criteria, false);
-        myLocationManager.requestLocationUpdates(provider, 200, 1, this);
+        provider = myLocationManager.getBestProvider(criteria,true);
+        myLocationManager.requestLocationUpdates(provider,100,1,this);
         location = myLocationManager.getLastKnownLocation(provider);
+        int a = 1;
     }
 
 
@@ -49,7 +50,12 @@ public class SimpleLocationListener implements LocationListener{
 
     }
 
-    public Location getLocation() {
+    public Location getLocation()  {
+        if (location == null)
+        {
+            location = myLocationManager.getLastKnownLocation(provider);
+        }
+      //  if (location == null) throw new Exception();
         return location;
     }
 

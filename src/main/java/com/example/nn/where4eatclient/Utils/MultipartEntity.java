@@ -1,4 +1,4 @@
-package com.example.nn.where4eatclient.Utils;
+package com.example.nn.where4eatclient.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

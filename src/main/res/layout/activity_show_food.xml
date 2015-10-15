@@ -17,7 +17,7 @@
     tools:context="com.example.nn.where4eatclient.ShowFoodActivity">
 
 
-    <ImageView
+    <com.example.nn.where4eatclient.utils.TouchImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/preview_image_2"
@@ -66,6 +66,15 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_below="@+id/foodview_rating"
             android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/small_map"
+                android:text="@string/get_directions"
+                android:id="@+id/direction_button"
+                android:onClick="getDirections"
+                />
 
 </RelativeLayout>
     </ScrollView>

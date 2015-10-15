@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nn.where4eatclient.Utils.Constants;
-import com.example.nn.where4eatclient.Utils.SessionManager;
+import com.example.nn.where4eatclient.utils.Constants;
+import com.example.nn.where4eatclient.utils.SessionManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,7 +30,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.nn.where4eatclient.Utils.Convertor.convertInputStreamToString;
+import static com.example.nn.where4eatclient.utils.Convertor.convertInputStreamToString;
 
 
 
@@ -181,7 +180,7 @@ public class LoginActivity extends Activity {
                 // Send stuff
                 HttpResponse httpResponse = httpClient.execute(httpPost);
 
-                // receive answer
+                // receive infobox
 
                 InputStream inputStream = httpResponse.getEntity().getContent();
                 String answerString = convertInputStreamToString(inputStream);

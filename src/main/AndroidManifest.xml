@@ -80,6 +80,10 @@
             android:name=".FullImageActivity"
             android:label="@string/title_activity_full_image" >
         </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
     </application>
 
 </manifest>

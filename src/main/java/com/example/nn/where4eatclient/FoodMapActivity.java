@@ -10,10 +10,9 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.example.nn.where4eatclient.Utils.AsyncGetFood;
-import com.example.nn.where4eatclient.Utils.SimpleLocationListener;
+import com.example.nn.where4eatclient.utils.AsyncGetFood;
+import com.example.nn.where4eatclient.utils.SimpleLocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,11 +67,13 @@ public class FoodMapActivity extends FragmentActivity {
 
             try {
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
                 for (int i = 0; i < jsonArray.length(); i++) {
 
                     MarkerOptions m = new MarkerOptions()
                             .position(new LatLng(jsonArray.getJSONObject(i).getDouble("latitude"), jsonArray.getJSONObject(i).getDouble("longitude")))
                             .title(jsonArray.getJSONObject(i).getString("name"));
+
                     Marker x = mMap.addMarker(m);
                     builder.include(x.getPosition());
 

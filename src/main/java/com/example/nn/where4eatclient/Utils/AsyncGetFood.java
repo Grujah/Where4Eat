@@ -1,4 +1,4 @@
-package com.example.nn.where4eatclient.Utils;
+package com.example.nn.where4eatclient.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -46,8 +46,10 @@ public class AsyncGetFood extends AsyncTask<String, Void, JSONArray> {
             result.put("distance",10000000);
 
             SimpleLocationListener loc = new SimpleLocationListener(context);
-            result.put("latitude", loc.getLocation().getLatitude());
-            result.put("longitude",loc.getLocation().getLongitude());
+            result.put("latitude",
+                    loc.getLocation().getLatitude());
+            result.put("longitude",
+                    loc.getLocation().getLongitude());
 
             this.execute(result.toString());
 
@@ -77,7 +79,6 @@ public class AsyncGetFood extends AsyncTask<String, Void, JSONArray> {
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost( Constants.SERVER_URL + Constants.GET_FOOD_URL);
-
 
             // put data in http client
             StringEntity se = new StringEntity(send.toString());

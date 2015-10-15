@@ -1,12 +1,7 @@
 package com.example.nn.where4eatclient.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +11,12 @@ import android.widget.TextView;
 
 import com.example.nn.where4eatclient.R;
 import com.example.nn.where4eatclient.ShowFoodActivity;
-import com.example.nn.where4eatclient.Utils.Constants;
-import com.example.nn.where4eatclient.Utils.DownloadImageTask;
+import com.example.nn.where4eatclient.utils.Constants;
+import com.example.nn.where4eatclient.utils.DownloadImageTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.InputStream;
 
 /**
  * Created by nn on 9/22/2015.

@@ -1,4 +1,4 @@
-package com.example.nn.where4eatclient.Utils;
+package com.example.nn.where4eatclient.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

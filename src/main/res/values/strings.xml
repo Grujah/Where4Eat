@@ -34,5 +34,9 @@
     <string name="title_activity_full_image">FullImageActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="get_directions">Get Directions</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="make_account">Sign up!</string>
+    <string name="signup_title">Here you can sign up</string>
 
 </resources>

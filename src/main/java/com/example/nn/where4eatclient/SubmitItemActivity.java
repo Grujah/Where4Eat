@@ -1,16 +1,19 @@
 package com.example.nn.where4eatclient;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -22,9 +25,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
-import com.example.nn.where4eatclient.Utils.Constants;
-import com.example.nn.where4eatclient.Utils.SessionManager;
-import com.example.nn.where4eatclient.Utils.SimpleLocationListener;
+import com.example.nn.where4eatclient.utils.Constants;
+import com.example.nn.where4eatclient.utils.SessionManager;
+import com.example.nn.where4eatclient.utils.SimpleLocationListener;
 import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
@@ -57,7 +60,7 @@ import java.util.ArrayList;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.maps.model.LatLng;
 
-import static com.example.nn.where4eatclient.Utils.Convertor.convertInputStreamToString;
+import static com.example.nn.where4eatclient.utils.Convertor.convertInputStreamToString;
 
 
 public class SubmitItemActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
@@ -172,13 +175,40 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
 
     public void takeAPicture(View view) {
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+       /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "myfood.png");
         imageUri = Uri.fromFile(imageFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+        startActivityForResult(intent, TAKE_PICTURE_REQUEST);*/
 
-    }
+            final CharSequence[] items = { "Take Photo", "Choose from Library", "Cancel" };
+            AlertDialog.Builder builder = new AlertDialog.Builder(SubmitItemActivity.this);
+            builder.setTitle("Add Photo!");
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (items[item].equals("Take Photo")) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "myfood.png");
+                        imageUri = Uri.fromFile(imageFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, Constants.REQUEST_CAMERA_CODE);
+                    } else if (items[item].equals("Choose from Library")) {
+                        Intent intent = new Intent(
+                                Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/*");
+                        startActivityForResult(
+                                Intent.createChooser(intent, "Select File"),
+                                Constants.SELECT_FILE_CODE);
+                    } else if (items[item].equals("Cancel")) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+            builder.show();
+        }
+
 
     public void submitItem(View view){
 
@@ -198,12 +228,10 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
         if (connectedToGoogle = true) {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
-         }
+        }
     }
 
-
-
-    public class uploadToServer extends AsyncTask<Void, Void, Integer> {
+     class uploadToServer extends AsyncTask<Void, Void, Integer> {
 
         ProgressDialog pDialog = new ProgressDialog(SubmitItemActivity.this);
         JSONObject jasonAnswer;
@@ -269,7 +297,7 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
             HttpResponse httpResponse = httpClient.execute(httpPost);
             //    HttpResponse httpResponse2 = httpClient.execute(imagePost);
 
-            // receive answer
+            // receive infobox
 
             InputStream inputStream = httpResponse.getEntity().getContent();
             String answerString = convertInputStreamToString(inputStream);
@@ -302,34 +330,75 @@ public class SubmitItemActivity extends Activity implements GoogleApiClient.Conn
 
         super.onActivityResult(requestCode, resultCode, intent);
 
-        if (requestCode == TAKE_PICTURE_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.REQUEST_CAMERA_CODE) {
 
 
-            getContentResolver().notifyChange(imageUri, null);
-            ContentResolver cr = getContentResolver();
+                getContentResolver().notifyChange(imageUri, null);
+                ContentResolver cr = getContentResolver();
 
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
-                SharePhoto sp = new SharePhoto.Builder()
-                        .setBitmap(bitmap)
-                        .build();
-                content = new SharePhotoContent.Builder()
-                        .addPhoto(sp)
-                        .build();
-                imagePath = imageUri.getPath();
-                imageContainer.setImageBitmap(bitmap);
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
+                    SharePhoto sp = new SharePhoto.Builder()
+                            .setBitmap(bitmap)
+                            .build();
+                    content = new SharePhotoContent.Builder()
+                            .addPhoto(sp)
+                            .build();
+                    imagePath = imageUri.getPath();
+                    imageContainer.setImageBitmap(bitmap);
 
-            } catch (Exception e) {
-                Log.e("setImage:", "failure");
+                } catch (Exception e) {
+                    Log.e("setImage:", "failure");
+                }
             }
-        }
-        if (requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
-            Place place = PlacePicker.getPlace(intent, this);
-            if (place !=null) {
-                venueContainer.setText(place.getName());
-                placeId = place.getId();
-                gotPlace = true;
-                placeLL = place.getLatLng();
+           /* if (requestCode == Constants.REQUEST_CAMERA_CODE) {
+                Bitmap thumbnail = (Bitmap) intent.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),
+                        System.currentTimeMillis() + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                imageContainer.setImageBitmap(thumbnail);
+            }*/
+            if (requestCode == Constants.SELECT_FILE_CODE) {
+                Uri selectedImageUri = intent.getData();
+                String[] projection = { MediaStore.MediaColumns.DATA };
+                Cursor cursor = managedQuery(selectedImageUri, projection, null, null,
+                        null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                cursor.moveToFirst();
+                String selectedImagePath = cursor.getString(column_index);
+           //     BitmapFactory.Options options = new BitmapFactory.Options();
+            //    options.inJustDecodeBounds = true;
+                bitmap= BitmapFactory.decodeFile(selectedImagePath);
+            /*    final int REQUIRED_SIZE = 200;
+                int scale = 1;
+                while (options.outWidth / scale / 2 >= REQUIRED_SIZE
+                        && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+                    scale *= 2;
+                options.inSampleSize = scale;
+                options.inJustDecodeBounds = false;*/
+             //   bm = BitmapFactory.decodeFile(selectedImagePath, options);
+                imageContainer.setImageBitmap(bitmap);
+            }
+
+            if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(intent, this);
+                if (place != null) {
+                    venueContainer.setText(place.getName());
+                    placeId = place.getId();
+                    gotPlace = true;
+                    placeLL = place.getLatLng();
+                }
             }
         }
 
